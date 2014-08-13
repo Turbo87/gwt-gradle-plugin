@@ -43,7 +43,7 @@ public class GwtIdeaPlugin {
 	private static final String SCOPE_PROVIDED = "PROVIDED";
 	private static final String KEY_PLUS = "plus";
 
-	public void apply(final Project project, final GwtBasePlugin gwtBasePlugin) {
+    public void apply(final Project project, final GwtBasePlugin gwtBasePlugin) {
 		project.getPlugins().apply(IdeaPlugin.class);
 
 		project.afterEvaluate(new Action<Project>() {
@@ -54,10 +54,10 @@ public class GwtIdeaPlugin {
 						ideaModel.getModule().getScopes().get(SCOPE_PROVIDED).get(KEY_PLUS);
 
 				Configuration gwtSdkConfiguration = gwtBasePlugin.getGwtSdkConfiguration();
-				Configuration gwtConfiguration = gwtBasePlugin.getGwtConfiguration();
+				Configuration gwtCompileConfiguration = gwtBasePlugin.getGwtCompileConfiguration();
 
 				configurations.add(gwtSdkConfiguration);
-				configurations.add(gwtConfiguration);
+				configurations.add(gwtCompileConfiguration);
 			}
 		});
 	}

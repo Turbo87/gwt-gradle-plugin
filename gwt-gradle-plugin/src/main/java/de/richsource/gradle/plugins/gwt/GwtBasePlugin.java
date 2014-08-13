@@ -41,6 +41,8 @@ public class GwtBasePlugin implements Plugin<Project> {
 	public static final String GWT_TASK_GROUP = "GWT";
 	
 	public static final String GWT_CONFIGURATION = "gwt";
+	public static final String GWT_COMPILE_CONFIGURATION = "gwtCompile";
+	public static final String GWT_SOURCES_CONFIGURATION = "gwtSources";
 	public static final String GWT_SDK_CONFIGURATION = "gwtSdk";
 	public static final String EXTENSION_NAME = "gwt";
 	public static final String BUILD_DIR = "gwt";
@@ -65,6 +67,8 @@ public class GwtBasePlugin implements Plugin<Project> {
 	private Project project;
 	private GwtPluginExtension extension;
 	private Configuration gwtConfiguration;
+	private Configuration gwtCompileConfiguration;
+	private Configuration gwtSourcesConfiguration;
 	private Configuration gwtSdkConfiguration;
 	private ConfigurableFileCollection allGwtConfigurations;
 
@@ -83,10 +87,17 @@ public class GwtBasePlugin implements Plugin<Project> {
 		configureGwtDev();
 		configureGwtSuperDev();
 		
-		gwtConfiguration = project.getConfigurations().create(GWT_CONFIGURATION)
+		gwtCompileConfiguration = project.getConfigurations().create(GWT_COMPILE_CONFIGURATION)
 				.setDescription("Classpath for GWT client libraries that are not included in the war");
+		gwtSourcesConfiguration = project.getConfigurations().create(GWT_SOURCES_CONFIGURATION)
+				.setDescription("Classpath for GWT client library sources that are not included in the war");
 		gwtSdkConfiguration = project.getConfigurations().create(GWT_SDK_CONFIGURATION)
 				.setDescription("Classpath for GWT SDK libraries (gwt-dev, gwt-user)");
+
+		gwtConfiguration = project.getConfigurations().create(GWT_CONFIGURATION)
+				.setDescription("Classpath for GWT client libraries and library sources that are not included in the war");
+		gwtConfiguration.extendsFrom(gwtCompileConfiguration, gwtSourcesConfiguration);
+
 		allGwtConfigurations = project.files(gwtConfiguration, gwtSdkConfiguration);
 		
 		addToMainSourceSetClasspath(allGwtConfigurations);
@@ -392,6 +403,14 @@ public class GwtBasePlugin implements Plugin<Project> {
 		return gwtConfiguration;
 	}
 	
+	Configuration getGwtCompileConfiguration() {
+		return gwtCompileConfiguration;
+	}
+
+	Configuration getGwtSourcesConfiguration() {
+		return gwtSourcesConfiguration;
+	}
+
 	Configuration getGwtSdkConfiguration() {
 		return gwtSdkConfiguration;
 	}
