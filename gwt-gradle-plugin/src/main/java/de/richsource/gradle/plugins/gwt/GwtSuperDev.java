@@ -120,7 +120,12 @@ public class GwtSuperDev extends AbstractGwtActionTask implements GwtSuperDevOpt
 				return options.getLauncherDir();
 			}
 		});
-		conventionMapping.map("closureFormattedOutput", options::getClosureFormattedOutput);
+		conventionMapping.map("closureFormattedOutput", new Callable<Object>() {
+			@Override
+			public Object call() throws Exception {
+				return options.getClosureFormattedOutput();
+			}
+		});
 	}
 	
 	@Override
