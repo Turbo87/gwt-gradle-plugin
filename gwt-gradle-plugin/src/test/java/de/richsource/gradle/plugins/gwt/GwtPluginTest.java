@@ -85,7 +85,7 @@ public class GwtPluginTest {
 	public void testWarTasksAvailable() {
 		project.getPlugins().apply(WarPlugin.class);
 		
-		assertThat(tasks.getByName(GwtWarPlugin.TASK_WAR_TEMPLATE), instanceOf(Copy.class));
+		assertThat(tasks.getByName(GwtWarPlugin.TASK_WAR_TEMPLATE), instanceOf(ExplodedWar.class));
 		assertThat(tasks.getByName(GwtWarPlugin.TASK_GWT_DEV), instanceOf(GwtDev.class));
 		assertThat(tasks.getByName(GwtWarPlugin.TASK_DRAFT_WAR), instanceOf(War.class));
 	}
