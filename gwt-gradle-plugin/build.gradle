@@ -1,16 +1,20 @@
 import org.gradle.plugins.ide.eclipse.model.*
 
 buildscript {
+	ext.kotlin_version = '1.0.3'
+
 	repositories {
 		jcenter()
 	}
 	
 	dependencies {
 		classpath 'nl.javadude.gradle.plugins:license-gradle-plugin:0.11.0'
+		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 	}
 }
 
 apply plugin: 'java'
+apply plugin: 'kotlin'
 apply plugin: 'maven-publish'
 apply plugin: 'license'
 
@@ -21,12 +25,16 @@ license {
 	ext.year = 2016
 	ext.name = 'Steffen Schaefer'
 	header rootProject.file('LICENSE')
+
+	include "**/*.kt"
+	mapping { kt='JAVADOC_STYLE' }
 }
 
 repositories { mavenCentral() }
 
 dependencies {
 	compile gradleApi()
+	compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 	testCompile group: 'junit', name: 'junit', version: '4.11'
 }
 
